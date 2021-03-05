@@ -1,0 +1,4 @@
+//Source https://community.powerbi.com/t5/Desktop/Expanding-Multiple-Data-Tables-with-Unknown-Column-Names/td-p/471874
+Table.ExpandTableColumn([PreviousStep], "Data", List.Buffer(List.Union(List.Transform(Table.Column([PreviousStep],Table.ColumnNames([PreviousStep]){0}), each Table.ColumnNames(_)))))
+
+    
