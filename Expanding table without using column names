@@ -1,4 +1,14 @@
-//Source https://community.powerbi.com/t5/Desktop/Expanding-Multiple-Data-Tables-with-Unknown-Column-Names/td-p/471874
-Table.ExpandTableColumn([PreviousStep], "Data", List.Buffer(List.Union(List.Transform(Table.Column([PreviousStep],Table.ColumnNames([PreviousStep]){0}), each Table.ColumnNames(_)))))
+//This code requires a query names 'SourceFiles' that links to a source folder.
+let
+    Source = SourceFiles,
+    FilestoExtract = table.SelectRows(Source, each ([Name] = "[FileName]")),
+    AddedCustom = Table.AddCOlumn(Payments,"Data", each if [Extension] = ".xlsx" then Excel.Workbook([Content]) else if [Extension] = ".csv" then Csv.Document([Content]) else null),
+    Data = Table.SelectCOlumns(AddedCustomer,{"Data"}),
+    ExpandedContent = Table.ExpandTableColumn(Data, "Data", List.Union(List.Transform(Tavle.Column(Data,Table.ColumnNames(Data){0}, each Table.ColumnNames(_)))),
+    PromoteHeaders = Table.PromoteHeaders(ExpandedContent, [PromoteAllScalars=true])
+in
+    PromoteHeaders
+    
+//Table.ExpandTableColumn([PreviousStep], "Data", List.Buffer(List.Union(List.Transform(Table.Column([PreviousStep],Table.ColumnNames([PreviousStep]){0}), each Table.ColumnNames(_)))))
 
     
